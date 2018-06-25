@@ -27,7 +27,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -53,6 +55,7 @@ public class ArticleDetailFragment extends Fragment implements
     private ObservableScrollView mScrollView;
     private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
+    private ProgressBar progressBar;
 
     private int mTopInset;
     private View mPhotoContainerView;
@@ -138,6 +141,8 @@ public class ArticleDetailFragment extends Fragment implements
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
+        progressBar = (ProgressBar) mRootView.findViewById(R.id.loadingProgressBar);
+
         mStatusBarColorDrawable = new ColorDrawable(0);
 
         mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
@@ -206,7 +211,7 @@ public class ArticleDetailFragment extends Fragment implements
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
 
 
-        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Roboto-Regular.ttf"));
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
@@ -268,6 +273,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        progressBar.setVisibility(View.GONE);
         if (!isAdded()) {
             if (cursor != null) {
                 cursor.close();
@@ -278,6 +284,7 @@ public class ArticleDetailFragment extends Fragment implements
         mCursor = cursor;
         if (mCursor != null && !mCursor.moveToFirst()) {
             Log.e(TAG, "Error reading item detail cursor");
+            Toast.makeText(getActivity(), "Error reading item detail cursor", Toast.LENGTH_SHORT).show();
             mCursor.close();
             mCursor = null;
         }

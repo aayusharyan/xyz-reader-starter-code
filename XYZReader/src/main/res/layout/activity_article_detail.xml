@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,10 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/up_container"
         android:background="@android:color/transparent"
         android:layout_width="match_parent"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:elevation="0dp"
         android:layout_height="?actionBarSize">
 
         <ImageButton
@@ -21,5 +25,5 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/up"
             android:src="@drawable/ic_arrow_back" />
-    </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
 </FrameLayout>
